@@ -2,49 +2,49 @@ package view;
 
 import dao.NguoiDungDAO;
 import model.NguoiDung;
-import com.formdev.flatlaf.FlatLightLaf;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.List;
 
-public class QuanLyNguoiDungFrame extends JFrame {
+public class QuanLyNguoiDungFrame extends JPanel {
 
     private JTable table;
     private DefaultTableModel model;
 
     public QuanLyNguoiDungFrame() {
-        // Apply Theme
-        try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (Exception e) {}
-
-        setTitle("Quản Lý Người Dùng");
-        setSize(800, 500);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // --- HEADER ---
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(Color.WHITE);
-        header.setBorder(BorderFactory.createEmptyBorder(20, 25, 20, 25));
+        header.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(223, 228, 234)),
+            BorderFactory.createEmptyBorder(20, 25, 20, 25)
+        ));
 
         JLabel lblTitle = new JLabel("Danh sách người dùng");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        lblTitle.setForeground(new Color(44, 62, 80));
         header.add(lblTitle, BorderLayout.WEST);
 
         JPanel actionButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         actionButtons.setOpaque(false);
         
-        JButton btnAdd = new JButton(" Thêm người dùng");
-        btnAdd.setBackground(new Color(46, 204, 113));
+        JButton btnAdd = new JButton("➕ Thêm người dùng");
+        btnAdd.putClientProperty("JButton.buttonType", "roundRect");
+        btnAdd.setBackground(new Color(52, 152, 219));
         btnAdd.setForeground(Color.WHITE);
+        btnAdd.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnAdd.setFocusPainted(false);
+        btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnAdd.addActionListener(e -> themNguoiDung());
 
-        JButton btnReload = new JButton(" Làm mới");
+        JButton btnReload = new JButton("🔄 Làm mới");
+        btnReload.putClientProperty("JButton.buttonType", "roundRect");
+        btnReload.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnReload.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnReload.addActionListener(e -> loadTable());
 
         actionButtons.add(btnAdd);
@@ -65,10 +65,14 @@ public class QuanLyNguoiDungFrame extends JFrame {
 
         // --- FOOTER ---
         JPanel footer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 25, 15));
-        footer.setBackground(new Color(248, 249, 250));
+        footer.setBackground(Color.WHITE);
+        footer.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(223, 228, 234)));
         
         JButton btnDelete = new JButton("🗑 Xóa người dùng");
-        btnDelete.setForeground(new Color(192, 57, 43));
+        btnDelete.putClientProperty("JButton.buttonType", "roundRect");
+        btnDelete.setForeground(new Color(231, 76, 60));
+        btnDelete.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnDelete.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnDelete.addActionListener(e -> xoaNguoiDung());
 
         footer.add(btnDelete);

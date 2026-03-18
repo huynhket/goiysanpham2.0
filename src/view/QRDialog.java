@@ -30,19 +30,20 @@ public class QRDialog extends JDialog {
         setLocationRelativeTo(parent);
         setLayout(new BorderLayout());
 
-        Color primary = new Color(0, 102, 204);
+        Color primary = new Color(231, 76, 60);
 
         // ================= HEADER =================
-        JLabel title = new JLabel("QUÉT QR MB BANK", SwingConstants.CENTER);
+        JLabel title = new JLabel("QUÉT QR THANH TOÁN", SwingConstants.CENTER);
         title.setOpaque(true);
         title.setBackground(primary);
         title.setForeground(Color.WHITE);
         title.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        title.setPreferredSize(new Dimension(100, 55));
+        title.setPreferredSize(new Dimension(100, 65));
         add(title, BorderLayout.NORTH);
 
         // ================= CENTER =================
         JPanel center = new JPanel();
+        center.setBackground(Color.WHITE);
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
 
         // ===== FORMAT TIỀN =====
@@ -95,16 +96,27 @@ public class QRDialog extends JDialog {
         add(center, BorderLayout.CENTER);
 
         // ================= BUTTON =================
-        JPanel pButton = new JPanel();
+        JPanel pButton = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 10));
+        pButton.setBackground(Color.WHITE);
+        pButton.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
 
         JButton btnOK = new JButton("Tôi đã thanh toán");
-        JButton btnCancel = new JButton("Hủy");
-
+        btnOK.putClientProperty("JButton.buttonType", "roundRect");
+        btnOK.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnOK.setBackground(primary);
         btnOK.setForeground(Color.WHITE);
+        btnOK.setFocusPainted(false);
+        btnOK.setPreferredSize(new Dimension(160, 40));
+        btnOK.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        btnCancel.setBackground(Color.GRAY);
+        JButton btnCancel = new JButton("Hủy");
+        btnCancel.putClientProperty("JButton.buttonType", "roundRect");
+        btnCancel.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnCancel.setBackground(new Color(189, 195, 199));
         btnCancel.setForeground(Color.WHITE);
+        btnCancel.setFocusPainted(false);
+        btnCancel.setPreferredSize(new Dimension(100, 40));
+        btnCancel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         // ⭐ CONFIRM → LƯU DB TẠI ĐÂY
         btnOK.addActionListener(e -> {

@@ -2,41 +2,37 @@ package view;
 
 import dao.OrderDAO;
 import org.bson.Document;
-import com.formdev.flatlaf.FlatLightLaf;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.List;
 
-public class QuanLyDonHangFrame extends JFrame {
+public class QuanLyDonHangFrame extends JPanel {
 
     private JTable table;
     private DefaultTableModel model;
 
     public QuanLyDonHangFrame() {
-        // Apply Theme
-        try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (Exception e) {}
-
-        setTitle("Quản Lý Đơn Hàng - Admin");
-        setSize(1000, 600);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         // --- HEADER ---
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(Color.WHITE);
-        header.setBorder(BorderFactory.createEmptyBorder(20, 25, 20, 25));
+        header.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(223, 228, 234)),
+            BorderFactory.createEmptyBorder(20, 25, 20, 25)
+        ));
 
         JLabel lblTitle = new JLabel("Danh sách đơn hàng");
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        lblTitle.setForeground(new Color(44, 62, 80));
         header.add(lblTitle, BorderLayout.WEST);
 
-        JButton btnReload = new JButton(" Làm mới");
+        JButton btnReload = new JButton("🔄 Làm mới");
+        btnReload.putClientProperty("JButton.buttonType", "roundRect");
+        btnReload.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnReload.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnReload.addActionListener(e -> loadData());
         header.add(btnReload, BorderLayout.EAST);
 
@@ -57,11 +53,16 @@ public class QuanLyDonHangFrame extends JFrame {
 
         // --- FOOTER ---
         JPanel footer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 25, 15));
-        footer.setBackground(new Color(248, 249, 250));
+        footer.setBackground(Color.WHITE);
+        footer.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(223, 228, 234)));
         
         JButton btnUpdateStatus = new JButton("🔄 Cập nhật trạng thái");
+        btnUpdateStatus.putClientProperty("JButton.buttonType", "roundRect");
         btnUpdateStatus.setBackground(new Color(52, 152, 219));
         btnUpdateStatus.setForeground(Color.WHITE);
+        btnUpdateStatus.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnUpdateStatus.setFocusPainted(false);
+        btnUpdateStatus.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnUpdateStatus.addActionListener(e -> updateStatus());
         
         footer.add(btnUpdateStatus);

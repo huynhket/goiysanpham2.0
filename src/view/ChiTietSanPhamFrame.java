@@ -18,10 +18,11 @@ public class ChiTietSanPhamFrame extends JFrame {
     public ChiTietSanPhamFrame(int maNguoiDung, SanPham sp){
 
         setTitle("Chi tiết sản phẩm");
-        setSize(820, 500);
+        setSize(900, 560);
         setLocationRelativeTo(null);
-        setLayout(new BorderLayout(25,0));
-        getContentPane().setBackground(Color.WHITE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        setLayout(new BorderLayout(30,0));
+        getContentPane().setBackground(new Color(248, 250, 252)); // Softer background
 
         // ================= LEFT (ẢNH) =================
         JPanel left = new JPanel(new BorderLayout());
@@ -49,28 +50,32 @@ public class ChiTietSanPhamFrame extends JFrame {
         // ================= RIGHT (INFO) =================
         JPanel right = new JPanel();
         right.setLayout(new BoxLayout(right, BoxLayout.Y_AXIS));
-        right.setBackground(Color.WHITE);
-        right.setBorder(BorderFactory.createEmptyBorder(25,25,25,25));
+        right.setBackground(new Color(248, 250, 252));
+        right.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 40));
 
 
         // ===== TÊN =====
-        JLabel ten = new JLabel(sp.getTenSanPham());
-        ten.setFont(new Font("Arial", Font.BOLD, 24));
+        JLabel ten = new JLabel("<html><body style='width: 350px'>" + sp.getTenSanPham() + "</body></html>");
+        ten.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        ten.setForeground(new Color(30, 39, 46));
 
 
         // ===== GIÁ =====
         lblGia = new JLabel(String.format("%,.0f đ", sp.getGia()));
-        lblGia.setFont(new Font("Arial", Font.BOLD, 22));
-        lblGia.setForeground(Color.RED);
+        lblGia.setFont(new Font("Segoe UI", Font.BOLD, 32));
+        lblGia.setForeground(new Color(231, 76, 60));
 
 
         // ===== TỒN KHO =====
-        JLabel tonKho = new JLabel("Tồn kho: " + sp.getSoLuong());
+        JLabel tonKho = new JLabel("Tồn kho: " + sp.getSoLuong() + " sản phẩm");
+        tonKho.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        tonKho.setForeground(new Color(127, 140, 141));
 
 
         // ================= DUNG LƯỢNG =================
-        JLabel lbDL = new JLabel("Dung lượng:");
-        lbDL.setFont(new Font("Arial", Font.BOLD, 14));
+        JLabel lbDL = new JLabel("Chọn Phiên Bản:");
+        lbDL.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lbDL.setForeground(new Color(44, 62, 80));
 
         JComboBox<DungLuong> cboDL = new JComboBox<>();
         cboDL.setMaximumSize(new Dimension(250,35));
@@ -100,24 +105,37 @@ public class ChiTietSanPhamFrame extends JFrame {
         moTa.setLineWrap(true);
         moTa.setWrapStyleWord(true);
         moTa.setEditable(false);
-        moTa.setFont(new Font("Arial", Font.PLAIN, 13));
+        moTa.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        moTa.setForeground(new Color(87, 101, 116));
+        moTa.setBackground(new Color(248, 250, 252));
 
         JScrollPane scroll = new JScrollPane(moTa);
-        scroll.setPreferredSize(new Dimension(380,140));
-        scroll.setBorder(BorderFactory.createTitledBorder("Mô tả sản phẩm"));
-
+        scroll.setPreferredSize(new Dimension(420, 150));
+        scroll.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(new Color(223, 228, 234)), 
+                "Mô tả sản phẩm", 
+                0, 0, 
+                new Font("Segoe UI", Font.BOLD, 14), 
+                new Color(44, 62, 80)
+        ));
 
         // ================= NÚT =================
 
         JButton btnGio = new JButton("🛒 Thêm giỏ hàng");
-        btnGio.setBackground(new Color(108,117,125));
+        btnGio.putClientProperty("JButton.buttonType", "roundRect");
+        btnGio.setBackground(new Color(52, 152, 219));
         btnGio.setForeground(Color.WHITE);
+        btnGio.setFont(new Font("Segoe UI", Font.BOLD, 15));
         btnGio.setFocusPainted(false);
+        btnGio.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
         JButton btnMua = new JButton("⚡ Đặt mua ngay");
-        btnMua.setBackground(new Color(220,53,69));
+        btnMua.putClientProperty("JButton.buttonType", "roundRect");
+        btnMua.setBackground(new Color(231, 76, 60));
         btnMua.setForeground(Color.WHITE);
+        btnMua.setFont(new Font("Segoe UI", Font.BOLD, 15));
         btnMua.setFocusPainted(false);
+        btnMua.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
 
         // ===== GIỎ HÀNG =====
@@ -138,30 +156,15 @@ public class ChiTietSanPhamFrame extends JFrame {
 
         // ===== MUA =====
         btnMua.addActionListener(e -> {
-
             DungLuong dl = (DungLuong) cboDL.getSelectedItem();
 
-            int confirm = JOptionPane.showConfirmDialog(
-                    this,
-                    "Mua " + sp.getTenSanPham() + " - " + dl.getDungLuong() + " ?",
-                    "Xác nhận",
-                    JOptionPane.YES_NO_OPTION
-            );
+            // Lưu hành vi và thêm vào giỏ hàng
+            HanhViDAO.luuHanhVi(maNguoiDung, sp.getMaSanPham(), "cart");
+            GioHangDAO.them(maNguoiDung, sp.getMaSanPham(), dl.getMaDL());
 
-            if(confirm == JOptionPane.YES_OPTION){
-
-                HanhViDAO.luuHanhVi(maNguoiDung, sp.getMaSanPham(), "buy");
-
-                boolean ok1 = SanPhamDAO.truSoLuong(sp.getMaSanPham());
-                boolean ok2 = DungLuongDAO.truSoLuong(dl.getMaDL());
-
-                if(ok1 && ok2){
-                    JOptionPane.showMessageDialog(this,"Mua thành công 🎉");
-                    dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this,"Xin lỗi, sản phẩm này vừa hết hàng!");
-                }
-            }
+            // Mở trang Giỏ Hàng
+            new GioHangFrame(maNguoiDung).setVisible(true);
+            dispose();
         });
 
 

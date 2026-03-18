@@ -18,7 +18,7 @@ public class ThanhToanFrame extends JFrame {
     private JRadioButton rdoCOD = new JRadioButton("Thanh toán khi nhận hàng (COD)");
     private JRadioButton rdoCK = new JRadioButton("Chuyển khoản ngân hàng");
     private JLabel lblTotal;
-    private Color shopeeOrange = new Color(238, 77, 45);
+    private Color shopeeOrange = new Color(231, 76, 60);
     private int maND;
  
     public ThanhToanFrame(int maND) {
@@ -28,17 +28,20 @@ public class ThanhToanFrame extends JFrame {
         setSize(550, 800);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        getContentPane().setBackground(new Color(245, 245, 245));
+        getContentPane().setBackground(new Color(248, 250, 252));
         setLayout(new BorderLayout());
  
         // --- HEADER ---
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(Color.WHITE);
-        header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(225, 225, 225)));
-        header.setPreferredSize(new Dimension(0, 60));
-        JLabel title = new JLabel("  Thanh Toán", JLabel.LEFT);
-        title.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        title.setForeground(shopeeOrange);
+        header.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(223, 228, 234)),
+            BorderFactory.createEmptyBorder(15, 20, 15, 20)
+        ));
+        header.setPreferredSize(new Dimension(0, 70));
+        JLabel title = new JLabel("Thanh Toán", JLabel.LEFT);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        title.setForeground(new Color(44, 62, 80));
         header.add(title, BorderLayout.WEST);
         add(header, BorderLayout.NORTH);
  
@@ -66,30 +69,34 @@ public class ThanhToanFrame extends JFrame {
         // --- BOTTOM BAR ---
         JPanel bottom = new JPanel(new BorderLayout());
         bottom.setBackground(Color.WHITE);
-        bottom.setPreferredSize(new Dimension(0, 80));
-        bottom.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(225, 225, 225)));
+        bottom.setPreferredSize(new Dimension(0, 90));
+        bottom.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(223, 228, 234)),
+            BorderFactory.createEmptyBorder(15, 20, 15, 20)
+        ));
  
         double tong = GioHangDAO.tinhTongTien(maND);
         JPanel pricePanel = new JPanel(new GridLayout(2, 1));
         pricePanel.setOpaque(false);
-        pricePanel.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
+        pricePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
         
         JLabel lblTxt = new JLabel("Tổng thanh toán:");
-        lblTxt.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        lblTxt.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        lblTxt.setForeground(new Color(127, 140, 141));
         lblTotal = new JLabel(String.format("%,.0f đ", tong));
-        lblTotal.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        lblTotal.setFont(new Font("Segoe UI", Font.BOLD, 26));
         lblTotal.setForeground(shopeeOrange);
         
         pricePanel.add(lblTxt);
         pricePanel.add(lblTotal);
  
         JButton btnOrder = new JButton("Đặt Hàng");
+        btnOrder.putClientProperty("JButton.buttonType", "roundRect");
         btnOrder.setBackground(shopeeOrange);
         btnOrder.setForeground(Color.WHITE);
         btnOrder.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        btnOrder.setPreferredSize(new Dimension(150, 0));
+        btnOrder.setPreferredSize(new Dimension(160, 50));
         btnOrder.setFocusPainted(false);
-        btnOrder.setBorderPainted(false);
         btnOrder.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnOrder.addActionListener(e -> xửLýThanhToán(maND, tong));
  
@@ -137,6 +144,7 @@ public class ThanhToanFrame extends JFrame {
  
         JLabel lblHeader = new JLabel("Sản phẩm");
         lblHeader.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblHeader.setForeground(new Color(44, 62, 80));
         p.add(lblHeader);
         p.add(Box.createRigidArea(new Dimension(0, 10)));
  
@@ -144,13 +152,18 @@ public class ThanhToanFrame extends JFrame {
         for (GioHang g : ds) {
             JPanel item = new JPanel(new BorderLayout());
             item.setOpaque(false);
-            item.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+            item.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(245, 246, 250)),
+                BorderFactory.createEmptyBorder(8, 0, 8, 0)
+            ));
             
             JLabel lblTen = new JLabel(g.getTenSanPham() + " (x" + g.getSoLuong() + ")");
             lblTen.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+            lblTen.setForeground(new Color(44, 62, 80));
             
             JLabel lblGia = new JLabel(String.format("%,.0f đ", g.getThanhTien()));
             lblGia.setFont(new Font("Segoe UI", Font.BOLD, 14));
+            lblGia.setForeground(shopeeOrange);
             
             item.add(lblTen, BorderLayout.CENTER);
             item.add(lblGia, BorderLayout.EAST);

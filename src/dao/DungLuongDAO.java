@@ -78,11 +78,20 @@ public class DungLuongDAO {
 
     private static DungLuong map(Document doc) {
         DungLuong dl = new DungLuong();
-        dl.setMaDL(doc.getInteger("ma_dl", 0));
-        dl.setMaSanPham(doc.getInteger("ma_san_pham", 0));
+        Number maDl = (Number) doc.get("ma_dl");
+        dl.setMaDL(maDl != null ? maDl.intValue() : 0);
+        
+        Number maSp = (Number) doc.get("ma_san_pham");
+        dl.setMaSanPham(maSp != null ? maSp.intValue() : 0);
+        
         dl.setDungLuong(doc.getString("dung_luong"));
-        dl.setPhuPhi(doc.getDouble("phu_phi"));
-        dl.setSoLuong(doc.getInteger("so_luong", 0));
+        
+        Number phuPhi = (Number) doc.get("phu_phi");
+        dl.setPhuPhi(phuPhi != null ? phuPhi.doubleValue() : 0.0);
+        
+        Number soLuong = (Number) doc.get("so_luong");
+        dl.setSoLuong(soLuong != null ? soLuong.intValue() : 0);
+        
         dl.setHinhAnh(doc.getString("hinh_anh"));
         return dl;
     }

@@ -11,27 +11,29 @@ public class GioHangFrame extends JFrame {
     private int maNguoiDung;
     private JPanel cardPanel;
     private JLabel lblTongTien;
-    private Color shopeeOrange = new Color(238, 77, 45);
  
     public GioHangFrame(int maND) {
         this.maNguoiDung = maND;
  
         setTitle("Giỏ Hàng Của Tôi");
-        setSize(500, 700);
+        setSize(550, 750);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        getContentPane().setBackground(new Color(245, 245, 245));
+        getContentPane().setBackground(new Color(248, 250, 252));
         setLayout(new BorderLayout());
  
         // --- HEADER ---
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(Color.WHITE);
-        header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(225, 225, 225)));
-        header.setPreferredSize(new Dimension(0, 60));
+        header.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(223, 228, 234)),
+            BorderFactory.createEmptyBorder(15, 20, 15, 15)
+        ));
+        header.setPreferredSize(new Dimension(0, 70));
  
-        JLabel title = new JLabel("  Giỏ Hàng", JLabel.LEFT);
-        title.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        title.setForeground(shopeeOrange);
+        JLabel title = new JLabel("Giỏ Hàng Của Bạn", JLabel.LEFT);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        title.setForeground(new Color(44, 62, 80));
         header.add(title, BorderLayout.WEST);
  
         add(header, BorderLayout.NORTH);
@@ -49,30 +51,34 @@ public class GioHangFrame extends JFrame {
         // --- BOTTOM BAR ---
         JPanel bottomBar = new JPanel(new BorderLayout());
         bottomBar.setBackground(Color.WHITE);
-        bottomBar.setPreferredSize(new Dimension(0, 80));
-        bottomBar.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(225, 225, 225)));
+        bottomBar.setPreferredSize(new Dimension(0, 90));
+        bottomBar.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(223, 228, 234)),
+            BorderFactory.createEmptyBorder(10, 20, 10, 20)
+        ));
  
         JPanel summary = new JPanel(new GridLayout(2, 1));
         summary.setOpaque(false);
-        summary.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 10));
+        summary.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
  
-        JLabel lblText = new JLabel("Tổng cộng:");
-        lblText.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        JLabel lblText = new JLabel("Tổng thanh toán:");
+        lblText.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        lblText.setForeground(new Color(127, 140, 141));
         
         lblTongTien = new JLabel("0 đ");
-        lblTongTien.setFont(new Font("Segoe UI", Font.BOLD, 22));
-        lblTongTien.setForeground(shopeeOrange);
+        lblTongTien.setFont(new Font("Segoe UI", Font.BOLD, 26));
+        lblTongTien.setForeground(new Color(231, 76, 60));
  
         summary.add(lblText);
         summary.add(lblTongTien);
  
         JButton btnThanhToan = new JButton("Mua Hàng");
+        btnThanhToan.putClientProperty("JButton.buttonType", "roundRect");
         btnThanhToan.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        btnThanhToan.setBackground(shopeeOrange);
+        btnThanhToan.setBackground(new Color(231, 76, 60));
         btnThanhToan.setForeground(Color.WHITE);
-        btnThanhToan.setPreferredSize(new Dimension(150, 0));
+        btnThanhToan.setPreferredSize(new Dimension(160, 50));
         btnThanhToan.setFocusPainted(false);
-        btnThanhToan.setBorderPainted(false);
         btnThanhToan.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnThanhToan.addActionListener(e -> {
             new ThanhToanFrame(maND);
@@ -122,10 +128,10 @@ public class GioHangFrame extends JFrame {
     private JPanel taoItemCard(GioHang g) {
         JPanel card = new JPanel(new BorderLayout());
         card.setBackground(Color.WHITE);
-        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
+        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 130));
         card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(240, 240, 240)),
-            BorderFactory.createEmptyBorder(15, 20, 15, 20)
+            BorderFactory.createLineBorder(new Color(236, 240, 241), 1),
+            BorderFactory.createEmptyBorder(20, 25, 20, 25)
         ));
  
         // Info
@@ -136,26 +142,30 @@ public class GioHangFrame extends JFrame {
         gbc.weightx = 1.0;
  
         JLabel lblTen = new JLabel(g.getTenSanPham());
-        lblTen.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblTen.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblTen.setForeground(new Color(44, 62, 80));
         
         JLabel lblDL = new JLabel("Phân loại: " + g.getDungLuong());
-        lblDL.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        lblDL.setForeground(Color.GRAY);
+        lblDL.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        lblDL.setForeground(new Color(127, 140, 141));
  
         JLabel lblGia = new JLabel(String.format("%,.0f đ", g.getGia()));
-        lblGia.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        lblGia.setForeground(shopeeOrange);
+        lblGia.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblGia.setForeground(new Color(231, 76, 60));
  
         gbc.gridy = 0; info.add(lblTen, gbc);
-        gbc.gridy = 1; info.add(lblDL, gbc);
-        gbc.gridy = 2; info.add(lblGia, gbc);
+        gbc.gridy = 1; info.add(Box.createVerticalStrut(5), gbc);
+        gbc.gridy = 2; info.add(lblDL, gbc);
+        gbc.gridy = 3; info.add(Box.createVerticalStrut(8), gbc);
+        gbc.gridy = 4; info.add(lblGia, gbc);
  
         // Control
         JPanel ctrl = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 20));
         ctrl.setOpaque(false);
         
         JLabel lblSL = new JLabel("x" + g.getSoLuong());
-        lblSL.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblSL.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        lblSL.setForeground(new Color(44, 62, 80));
         ctrl.add(lblSL);
  
         card.add(info, BorderLayout.CENTER);

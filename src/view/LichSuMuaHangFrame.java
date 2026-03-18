@@ -9,25 +9,28 @@ import java.util.ArrayList;
 public class LichSuMuaHangFrame extends JFrame {
  
     private JPanel historyPanel;
-    private Color shopeeOrange = new Color(238, 77, 45);
+    private Color shopeeOrange = new Color(231, 76, 60);
  
     public LichSuMuaHangFrame(int maNguoiDung) {
         setTitle("Lịch Sử Mua Hàng");
         setSize(550, 750);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        getContentPane().setBackground(new Color(245, 245, 245));
+        getContentPane().setBackground(new Color(248, 250, 252));
         setLayout(new BorderLayout());
  
         // --- HEADER ---
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(Color.WHITE);
-        header.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(225, 225, 225)));
-        header.setPreferredSize(new Dimension(0, 60));
+        header.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(223, 228, 234)),
+            BorderFactory.createEmptyBorder(15, 20, 0, 20)
+        ));
+        header.setPreferredSize(new Dimension(0, 70));
         
-        JLabel title = new JLabel("  Đơn Mua", JLabel.LEFT);
-        title.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        title.setForeground(shopeeOrange);
+        JLabel title = new JLabel("Đơn Mua Của Bạn", JLabel.LEFT);
+        title.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        title.setForeground(new Color(44, 62, 80));
         header.add(title, BorderLayout.WEST);
         
         add(header, BorderLayout.NORTH);
@@ -37,13 +40,13 @@ public class LichSuMuaHangFrame extends JFrame {
         tabs.setBackground(Color.WHITE);
         tabs.setPreferredSize(new Dimension(0, 50));
         JLabel tabAll = new JLabel("Tất cả", JLabel.CENTER);
-        tabAll.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        tabAll.setFont(new Font("Segoe UI", Font.BOLD, 15));
         tabAll.setForeground(shopeeOrange);
         tabAll.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, shopeeOrange));
         tabs.add(tabAll);
         
         header.add(tabs, BorderLayout.SOUTH);
-        header.setPreferredSize(new Dimension(0, 110));
+        header.setPreferredSize(new Dimension(0, 120));
  
         // --- HISTORY LIST ---
         historyPanel = new JPanel();
@@ -83,20 +86,21 @@ public class LichSuMuaHangFrame extends JFrame {
     private JPanel taoDonHangCard(LichSuMuaHang ls) {
         JPanel card = new JPanel(new BorderLayout());
         card.setBackground(Color.WHITE);
-        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 160));
+        card.setMaximumSize(new Dimension(Integer.MAX_VALUE, 170));
         card.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(230, 230, 230)),
-            BorderFactory.createEmptyBorder(15, 20, 15, 20)
+            BorderFactory.createLineBorder(new Color(236, 240, 241), 1),
+            BorderFactory.createEmptyBorder(20, 25, 20, 25)
         ));
  
         // Header card
         JPanel header = new JPanel(new BorderLayout());
         header.setOpaque(false);
         JLabel lblShop = new JLabel("📦 Đơn hàng: #" + ls.getMaDonHang());
-        lblShop.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        lblShop.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lblShop.setForeground(new Color(44, 62, 80));
         
         JLabel lblStatus = new JLabel(ls.getTrangThai());
-        lblStatus.setFont(new Font("Segoe UI", Font.BOLD, 13));
+        lblStatus.setFont(new Font("Segoe UI", Font.BOLD, 14));
         lblStatus.setForeground(shopeeOrange);
         
         header.add(lblShop, BorderLayout.WEST);
@@ -105,29 +109,35 @@ public class LichSuMuaHangFrame extends JFrame {
         // Body card
         JPanel body = new JPanel(new GridBagLayout());
         body.setOpaque(false);
-        body.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(245, 245, 245)));
+        body.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(1, 0, 1, 0, new Color(245, 246, 250)),
+            BorderFactory.createEmptyBorder(15, 0, 15, 0)
+        ));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weightx = 1.0;
  
         JLabel lblTen = new JLabel(ls.getTenSanPham());
-        lblTen.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        lblTen.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        lblTen.setForeground(new Color(44, 62, 80));
         
         JLabel lblQty = new JLabel("x" + ls.getSoLuong());
-        lblQty.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        lblQty.setForeground(Color.GRAY);
+        lblQty.setFont(new Font("Segoe UI", Font.PLAIN, 15));
+        lblQty.setForeground(new Color(127, 140, 141));
         
         gbc.gridy = 0; body.add(lblTen, gbc);
-        gbc.gridy = 1; body.add(lblQty, gbc);
+        gbc.gridy = 1; body.add(Box.createVerticalStrut(5), gbc);
+        gbc.gridy = 2; body.add(lblQty, gbc);
  
         // Footer card
-        JPanel footer = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel footer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 5));
         footer.setOpaque(false);
         JLabel lblPriceTotal = new JLabel("Thành tiền: ");
-        lblPriceTotal.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        lblPriceTotal.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        lblPriceTotal.setForeground(new Color(127, 140, 141));
         
         JLabel lblPrice = new JLabel(String.format("%,.0f đ", ls.getGia()));
-        lblPrice.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        lblPrice.setFont(new Font("Segoe UI", Font.BOLD, 20));
         lblPrice.setForeground(shopeeOrange);
         
         footer.add(lblPriceTotal);

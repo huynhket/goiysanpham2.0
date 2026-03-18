@@ -42,6 +42,16 @@ public class NguoiDungDAO {
         return null;
     }
 
+    public static boolean kienTraTonTai(String tenDangNhap) {
+        try {
+            Document doc = getCollection().find(Filters.eq("ten_dang_nhap", tenDangNhap)).first();
+            return doc != null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     private static MongoCollection<Document> getCollection() {
         return DBConnection.getDatabase().getCollection("users");
     }

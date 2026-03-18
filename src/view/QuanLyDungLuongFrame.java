@@ -2,8 +2,6 @@ package view;
 
 import dao.DungLuongDAO;
 import model.DungLuong;
-import com.formdev.flatlaf.FlatLightLaf;
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -23,14 +21,9 @@ public class QuanLyDungLuongFrame extends JFrame {
     private DefaultTableModel model;
 
     public QuanLyDungLuongFrame(int maSP, String tenSP) {
-        // Apply Theme
-        try {
-            UIManager.setLookAndFeel(new FlatLightLaf());
-        } catch (Exception e) {}
-
         this.maSanPham = maSP;
         setTitle("Quản lý biến thể: " + tenSP);
-        setSize(700, 450);
+        setSize(750, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
@@ -38,13 +31,20 @@ public class QuanLyDungLuongFrame extends JFrame {
         // --- HEADER ---
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(Color.WHITE);
-        header.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
+        header.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(223, 228, 234)),
+            BorderFactory.createEmptyBorder(15, 20, 15, 20)
+        ));
 
         JLabel lblTitle = new JLabel("Biến thể: " + tenSP);
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        lblTitle.setForeground(new Color(44, 62, 80));
         header.add(lblTitle, BorderLayout.WEST);
 
-        JButton btnReload = new JButton(" Làm mới");
+        JButton btnReload = new JButton("🔄 Làm mới");
+        btnReload.putClientProperty("JButton.buttonType", "roundRect");
+        btnReload.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnReload.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnReload.addActionListener(e -> loadData());
         header.add(btnReload, BorderLayout.EAST);
 
@@ -61,15 +61,23 @@ public class QuanLyDungLuongFrame extends JFrame {
         add(scroll, BorderLayout.CENTER);
 
         // --- FOOTER ---
-        JPanel footer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 20, 10));
-        footer.setBackground(new Color(248, 249, 250));
+        JPanel footer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 15, 15));
+        footer.setBackground(Color.WHITE);
+        footer.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(223, 228, 234)));
         
         JButton btnThem = new JButton("➕ Thêm biến thể");
-        btnThem.setBackground(new Color(46, 204, 113));
+        btnThem.putClientProperty("JButton.buttonType", "roundRect");
+        btnThem.setBackground(new Color(52, 152, 219));
         btnThem.setForeground(Color.WHITE);
+        btnThem.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnThem.setFocusPainted(false);
+        btnThem.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         JButton btnXoa = new JButton("🗑 Xóa");
-        btnXoa.setForeground(new Color(192, 57, 43));
+        btnXoa.putClientProperty("JButton.buttonType", "roundRect");
+        btnXoa.setForeground(new Color(231, 76, 60));
+        btnXoa.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        btnXoa.setCursor(new Cursor(Cursor.HAND_CURSOR));
         
         footer.add(btnThem);
         footer.add(btnXoa);
@@ -111,7 +119,7 @@ public class QuanLyDungLuongFrame extends JFrame {
     private void them() {
         JDialog dialog = new JDialog(this, "Thêm biến thể mới", true);
         dialog.setSize(400, 350);
-        dialog.setLocationRelativeTo(this);
+        dialog.setLocationRelativeTo(null);
         dialog.setLayout(new BorderLayout());
 
         JPanel formPanel = new JPanel(new GridLayout(4, 2, 10, 10));
@@ -181,6 +189,7 @@ public class QuanLyDungLuongFrame extends JFrame {
     private void addDropSupport(JTextField textField) {
         textField.setToolTipText("Bạn có thể kéo thả file ảnh vào đây");
         new DropTarget(textField, new DropTargetAdapter() {
+            @SuppressWarnings("unchecked")
             @Override
             public void drop(DropTargetDropEvent event) {
                 try {
