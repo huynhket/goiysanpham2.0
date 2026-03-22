@@ -44,7 +44,7 @@ public class TrangQuanTriFrame extends JFrame {
 
         JLabel lblTitle = new JLabel("ADMIN PANEL");
         lblTitle.setForeground(Color.WHITE);
-        lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        lblTitle.setFont(new Font("Segoe UI Emoji", Font.BOLD, 22));
         lblTitle.setBorder(BorderFactory.createEmptyBorder(30, 20, 30, 20));
         sidebar.add(lblTitle);
 
@@ -83,14 +83,14 @@ public class TrangQuanTriFrame extends JFrame {
         ));
 
         JLabel lblSub = new JLabel("Danh sách sản phẩm");
-        lblSub.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        lblSub.setFont(new Font("Segoe UI Emoji", Font.BOLD, 22));
         lblSub.setForeground(new Color(44, 62, 80));
         mainHeader.add(lblSub, BorderLayout.WEST);
 
         JPanel actionButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         actionButtons.setOpaque(false);
         
-        JButton btnAdd = new JButton("➕ Thêm sản phẩm");
+        JButton btnAdd = new JButton("<html><nobr><span style='font-family: \"Segoe UI Emoji\";'>\u2795</span> <span style='font-family: \"Segoe UI\";'>Th\u00eam s\u1ea3n ph\u1ea9m</span></nobr></html>");
         btnAdd.putClientProperty("JButton.buttonType", "roundRect");
         btnAdd.setBackground(new Color(52, 152, 219));
         btnAdd.setForeground(Color.WHITE);
@@ -99,7 +99,7 @@ public class TrangQuanTriFrame extends JFrame {
         btnAdd.setCursor(new Cursor(Cursor.HAND_CURSOR));
         btnAdd.addActionListener(e -> themSanPham());
 
-        JButton btnReload = new JButton("🔄 Làm mới");
+        JButton btnReload = new JButton("<html><nobr><span style='font-family: \"Segoe UI Emoji\";'>\uD83D\uDD04</span> <span style='font-family: \"Segoe UI\";'>L\u00e0m m\u1edbi</span></nobr></html>");
         btnReload.putClientProperty("JButton.buttonType", "roundRect");
         btnReload.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnReload.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -126,7 +126,7 @@ public class TrangQuanTriFrame extends JFrame {
         footer.setBackground(Color.WHITE);
         footer.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(223, 228, 234)));
         
-        JButton btnVariants = new JButton("🔧 Quản lý biến thể");
+        JButton btnVariants = new JButton("<html><nobr><span style='font-family: \"Segoe UI Emoji\";'>\uD83D\uDD27</span> <span style='font-family: \"Segoe UI\";'>Qu\u1ea3n l\u00fd bi\u1ebfn th\u1ec3</span></nobr></html>");
         btnVariants.putClientProperty("JButton.buttonType", "roundRect");
         btnVariants.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnVariants.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -141,7 +141,7 @@ public class TrangQuanTriFrame extends JFrame {
             }
         });
 
-        JButton btnDelete = new JButton("🗑 Xóa sản phẩm");
+        JButton btnDelete = new JButton("<html><nobr><span style='font-family: \"Segoe UI Emoji\";'>\uD83D\uDDD1</span> <span style='font-family: \"Segoe UI\";'>X\u00f3a s\u1ea3n ph\u1ea9m</span></nobr></html>");
         btnDelete.putClientProperty("JButton.buttonType", "roundRect");
         btnDelete.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnDelete.setForeground(new Color(231, 76, 60));
@@ -167,11 +167,11 @@ public class TrangQuanTriFrame extends JFrame {
             BorderFactory.createEmptyBorder(20, 25, 20, 25)
         ));
         JLabel lblThongKeTitle = new JLabel("Thống kê hệ thống");
-        lblThongKeTitle.setFont(new Font("Segoe UI", Font.BOLD, 22));
+        lblThongKeTitle.setFont(new Font("Segoe UI Emoji", Font.BOLD, 22));
         lblThongKeTitle.setForeground(new Color(44, 62, 80));
         thongKeHeader.add(lblThongKeTitle, BorderLayout.WEST);
         
-        JButton btnReloadThongKe = new JButton("🔄 Làm mới");
+        JButton btnReloadThongKe = new JButton("<html><nobr><span style='font-family: \"Segoe UI Emoji\";'>\uD83D\uDD04</span> <span style='font-family: \"Segoe UI\";'>L\u00e0m m\u1edbi</span></nobr></html>");
         btnReloadThongKe.putClientProperty("JButton.buttonType", "roundRect");
         btnReloadThongKe.setFont(new Font("Segoe UI", Font.BOLD, 14));
         btnReloadThongKe.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -198,7 +198,14 @@ public class TrangQuanTriFrame extends JFrame {
     }
 
     private JButton createAdminNavBtn(String text, boolean active, java.awt.event.ActionListener l) {
-        JButton b = new JButton(text);
+        String formattedText = text;
+        int spaceIdx = text.indexOf(' ');
+        if (spaceIdx > 0 && text.length() > 2) {
+            String emoji = text.substring(0, spaceIdx);
+            String label = text.substring(spaceIdx + 1);
+            formattedText = "<html><nobr><span style='font-family: \"Segoe UI Emoji\";'>" + emoji + "</span>&nbsp;<span style='font-family: \"Segoe UI\";'>" + label + "</span></nobr></html>";
+        }
+        JButton b = new JButton(formattedText);
         b.setMaximumSize(new Dimension(240, 50));
         b.setFont(new Font("Segoe UI", active ? Font.BOLD : Font.PLAIN, 16));
         b.setForeground(active ? Color.WHITE : new Color(189, 195, 199));
@@ -229,8 +236,8 @@ public class TrangQuanTriFrame extends JFrame {
     private void styleTable() {
         table.setRowHeight(35);
         table.getTableHeader().setPreferredSize(new Dimension(0, 40));
-        table.getTableHeader().setFont(new Font("Segoe UI", Font.BOLD, 14));
-        table.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        table.getTableHeader().setFont(new Font("Segoe UI Emoji", Font.BOLD, 14));
+        table.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 14));
         table.setShowGrid(false);
         table.setIntercellSpacing(new Dimension(0, 0));
         
@@ -294,7 +301,7 @@ public class TrangQuanTriFrame extends JFrame {
                 BorderFactory.createLineBorder(new Color(223, 228, 234)), 
                 "TỔNG QUAN HỆ THỐNG", 
                 0, 0, 
-                new Font("Segoe UI", Font.BOLD, 14), 
+                new Font("Segoe UI Emoji", Font.BOLD, 14), 
                 new Color(44, 62, 80)
             ));
             
@@ -309,7 +316,7 @@ public class TrangQuanTriFrame extends JFrame {
                 BorderFactory.createLineBorder(new Color(223, 228, 234)), 
                 "THỐNG KÊ THÁNG NÀY (Từ ngày 1 - cuối tháng)", 
                 0, 0, 
-                new Font("Segoe UI", Font.BOLD, 14), 
+                new Font("Segoe UI Emoji", Font.BOLD, 14), 
                 new Color(230, 126, 34)
             ));
             
@@ -336,12 +343,19 @@ public class TrangQuanTriFrame extends JFrame {
             BorderFactory.createEmptyBorder(20, 20, 20, 20)
         ));
         
-        JLabel lblTitle = new JLabel(title);
+        String formattedTitle = title;
+        int spaceIdx = title.indexOf(' ');
+        if (spaceIdx > 0 && title.length() > 2) {
+            String emoji = title.substring(0, spaceIdx);
+            String label = title.substring(spaceIdx + 1);
+            formattedTitle = "<html><nobr><span style='font-family: \"Segoe UI Emoji\";'>" + emoji + "</span> <span style='font-family: \"Segoe UI\";'>" + label + "</span></nobr></html>";
+        }
+        JLabel lblTitle = new JLabel(formattedTitle);
         lblTitle.setFont(new Font("Segoe UI", Font.BOLD, 16));
         lblTitle.setForeground(new Color(127, 140, 141));
         
         JLabel lblValue = new JLabel(value);
-        lblValue.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        lblValue.setFont(new Font("Segoe UI Emoji", Font.BOLD, 28));
         lblValue.setForeground(color);
         
         card.add(lblTitle, BorderLayout.NORTH);

@@ -85,11 +85,26 @@ public class TrangChuFrame extends JFrame {
         topBar.setBackground(Color.WHITE);
         topBar.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, new Color(236, 240, 241)));
 
+        JPanel leftActions = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 15));
+        leftActions.setOpaque(false);
+        try {
+            ImageIcon topLogoIcon = new ImageIcon(getClass().getResource("/images/logo.png"));
+            Image topImg = topLogoIcon.getImage().getScaledInstance(36, 36, Image.SCALE_SMOOTH);
+            JLabel lblTopLogo = new JLabel(new ImageIcon(topImg));
+            leftActions.add(lblTopLogo);
+        } catch (Exception e) {}
+        JLabel lblTopTitle = new JLabel("SmartShop");
+        lblTopTitle.setFont(new Font(FONT, Font.BOLD, 18));
+        lblTopTitle.setForeground(new Color(44, 62, 80));
+        leftActions.add(lblTopTitle);
+        topBar.add(leftActions, BorderLayout.WEST);
+
         JLabel lblUser = new JLabel("Xin ch\u00e0o, " + tenNguoiDung + " ");
         lblUser.setFont(new Font(FONT, Font.ITALIC, 14));
         lblUser.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 20));
 
-        JButton btnCart = new JButton("\uD83D\uDED2 Gi\u1ecf h\u00e0ng");
+        JButton btnCart = new JButton("<html><nobr><span style='font-family: \"Segoe UI Emoji\";'>\uD83D\uDED2</span> <span style='font-family: \"Segoe UI\";'>Gi\u1ecf h\u00e0ng</span></nobr></html>");
+        btnCart.setPreferredSize(new Dimension(130, 40));
         btnCart.putClientProperty("JButton.buttonType", "roundRect");
         btnCart.setBackground(new Color(52, 152, 219));
         btnCart.setForeground(Color.WHITE);
@@ -114,7 +129,14 @@ public class TrangChuFrame extends JFrame {
     }
 
     private JButton createNavBtn(String text, java.awt.event.ActionListener event) {
-        JButton b = new JButton(text);
+        String formattedText = text;
+        int spaceIdx = text.indexOf(' ');
+        if (spaceIdx > 0 && text.length() > 2) {
+            String emoji = text.substring(0, spaceIdx);
+            String label = text.substring(spaceIdx + 1);
+            formattedText = "<html><nobr><span style='font-family: \"Segoe UI Emoji\";'>" + emoji + "</span>&nbsp;<span style='font-family: \"Segoe UI\";'>" + label + "</span></nobr></html>";
+        }
+        JButton b = new JButton(formattedText);
         b.setMaximumSize(new Dimension(240, 50));
         b.setAlignmentX(Component.CENTER_ALIGNMENT);
         b.setFocusPainted(false);
@@ -157,7 +179,14 @@ public class TrangChuFrame extends JFrame {
     private void capNhatMain(String title, List<SanPham> ds) {
         mainContent.removeAll();
 
-        JLabel lblTitle = new JLabel(title);
+        String formattedTitle = title;
+        int spaceIdx = title.indexOf(' ');
+        if (spaceIdx > 0 && title.length() > 2) {
+            String emoji = title.substring(0, spaceIdx);
+            String label = title.substring(spaceIdx + 1);
+            formattedTitle = "<html><nobr><span style='font-family: \"Segoe UI Emoji\";'>" + emoji + "</span> <span style='font-family: \"Segoe UI\";'>" + label + "</span></nobr></html>";
+        }
+        JLabel lblTitle = new JLabel(formattedTitle);
         lblTitle.setFont(new Font(FONT, Font.BOLD, 20));
         lblTitle.setBorder(BorderFactory.createEmptyBorder(20, 25, 10, 25));
         mainContent.add(lblTitle, BorderLayout.NORTH);
